@@ -4,8 +4,14 @@ import (
 	"github.com/wkirschbaum/quoteboard/app"
 	"html/template"
 	"net/http"
+	"regexp"
 	"time"
 )
+
+func main() {
+	http.HandleFunc("/", makeHandler(viewHandler))
+	http.ListenAndServe(":4000", nil)
+}
 
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
@@ -16,9 +22,44 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func main() {
-	http.HandleFunc("/", viewHandler)
-	http.ListenAndServe(":4000", nil)
+func makeHandler(fn func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		validPathRegex := regexp.MustCompile("^/$")
+		matcher := validPathRegex.FindStringSubmatch(r.URL.Path)
+		if matcher == nil {
+			render404Page(w)
+			return
+		}
+		fn(w, r)
+	}
+}
+
+var templates = template.Must(template.ParseFiles("public/index.html", "public/404.html"))
+
+func render404Page(w http.ResponseWriter) {
+	w.WriteHeader(404)
+	renderPage(w, "404", nil)
+}
+
+func renderQuotePage(w http.ResponseWriter) {
+	page := app.QuotePage{Quotes: makeQuoteStore().GetAllByDocumentedDateDesc()}
+	renderPage(w, "index", page)
+}
+
+func renderPage(w http.ResponseWriter, templateName string, object interface{}) {
+	devMode := true
+	if devMode {
+		t, _ := template.ParseFiles("public/" + templateName + ".html")
+		err := t.Execute(w, object)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	} else {
+		err := templates.ExecuteTemplate(w, templateName+".html", object)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	}
 }
 
 func storeQuote(w http.ResponseWriter, content string, author string) {
@@ -28,24 +69,6 @@ func storeQuote(w http.ResponseWriter, content string, author string) {
 		Documentor:     "Unknown",
 		DocumentedDate: time.Now()}
 	makeQuoteStore().Save(quote)
-}
-
-var templates = template.Must(template.ParseFiles("public/index.html"))
-
-func renderQuotePage(w http.ResponseWriter) {
-	page := app.QuotePage{Quotes: makeQuoteStore().GetAllByDocumentedDateDesc()}
-
-	// false: cache views, true: don't cache views
-	devMode := true
-	if devMode {
-		t, _ := template.ParseFiles("public/index.html")
-		t.Execute(w, page)
-	} else {
-		err := templates.ExecuteTemplate(w, "index.html", page)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	}
 }
 
 func makeQuoteStore() app.QuoteStore {
