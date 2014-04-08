@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/wkirschbaum/quoteboard/app"
 	"html/template"
 	"net/http"
@@ -9,7 +8,6 @@ import (
 )
 
 func viewHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("%s %s requested\n", r.Method, r.URL)
 	if r.Method == "GET" {
 		page := app.QuotePage{Quotes: app.QuoteStore{DataFolder: "./data/"}.GetAllByDocumentedDateDesc()}
 		t, _ := template.ParseFiles("public/index.html")
@@ -22,14 +20,12 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 			Documentor:     "Unknown",
 			DocumentedDate: time.Now()}
 		store.Save(quote)
-		page := app.QuotePage{Quotes: app.QuoteStore{DataFolder: "./data/"}.GetAllByDocumentedDateDesc()}
-		t, _ := template.ParseFiles("public/index.html")
-		t.Execute(w, page)
+		http.Redirect(w, r, "/", 302)
 	}
 }
 
 func faviconHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("%s %s requested\n", r.Method, r.URL)
+
 }
 
 func main() {

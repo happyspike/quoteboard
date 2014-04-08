@@ -2,7 +2,6 @@ package app
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"sort"
@@ -17,10 +16,7 @@ func (store QuoteStore) Save(quote Quote) {
 	store.ensureDataFolderExists()
 	store_json, _ := json.Marshal(quote)
 	filename := store.MarshalFilename(quote)
-	err := ioutil.WriteFile(filename, store_json, os.ModePerm)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+	ioutil.WriteFile(filename, store_json, os.ModePerm)
 }
 
 func (store *QuoteStore) ensureDataFolderExists() {
@@ -29,7 +25,6 @@ func (store *QuoteStore) ensureDataFolderExists() {
 
 func (store QuoteStore) GetAll() []Quote {
 	files, _ := ioutil.ReadDir(store.DataFolder)
-	fmt.Println(store.DataFolder)
 	var quotes = []Quote{}
 
 	for _, fileinfo := range files {
