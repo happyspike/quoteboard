@@ -14,9 +14,9 @@ func TestStoreQuoteMarchallFilenameDate1(t *testing.T) {
 		Documentor:     "Test Documentor",
 		DocumentedDate: time.Date(2015, 2, 3, 4, 5, 6, 7, time.Local)}
 
-	store := QuoteStore{}
+	store := QuoteStore{DataFolder: "../test_data/"}
 	filename := store.MarshalFilename(quote)
-	asserts.AssertStringEqual("../data/2015-02-03T04:05:06.000000007+02:00.quote.json", filename, t)
+	asserts.AssertStringEqual("../test_data/2015-02-03T04:05:06.000000007+02:00.quote.json", filename, t)
 }
 
 func TestStoreQuoteMarchallFilenameDate2(t *testing.T) {
@@ -26,9 +26,9 @@ func TestStoreQuoteMarchallFilenameDate2(t *testing.T) {
 		Documentor:     "Test Documentor",
 		DocumentedDate: time.Date(2014, 1, 2, 3, 4, 5, 6, time.Local)}
 
-	store := QuoteStore{}
+	store := QuoteStore{DataFolder: "../test_data/"}
 	filename := store.MarshalFilename(quote)
-	asserts.AssertStringEqual("../data/2014-01-02T03:04:05.000000006+02:00.quote.json", filename, t)
+	asserts.AssertStringEqual("../test_data/2014-01-02T03:04:05.000000006+02:00.quote.json", filename, t)
 }
 
 func TestQuoteStoreSaveAsJsonFile(t *testing.T) {
@@ -38,7 +38,7 @@ func TestQuoteStoreSaveAsJsonFile(t *testing.T) {
 		Documentor:     "Test Documentor",
 		DocumentedDate: time.Date(2014, 1, 2, 3, 4, 5, 6, time.Local)}
 
-	store := QuoteStore{}
+	store := QuoteStore{DataFolder: "../test_data/"}
 	store.Save(quote)
 
 	asserts.AssertFileStringEqual(
@@ -55,7 +55,7 @@ func TestQuoteStoreSaveAsJsonFileWithOtherDate(t *testing.T) {
 		Documentor:     "Test Documentor",
 		DocumentedDate: time.Date(2015, 2, 3, 4, 5, 6, 7, time.Local)}
 
-	store := QuoteStore{}
+	store := QuoteStore{DataFolder: "../test_data/"}
 	store.Save(quote)
 
 	asserts.AssertFileStringEqual(
@@ -68,7 +68,7 @@ func TestQuoteStoreSaveAsJsonFileWithOtherDate(t *testing.T) {
 func TestStoreGetAllQuotes(t *testing.T) {
 	quote1 := createQuoteNow("test quote 1")
 	quote2 := createQuoteNow("test quote 2")
-	store := QuoteStore{}
+	store := QuoteStore{DataFolder: "../test_data/"}
 	store.Save(quote1)
 	store.Save(quote2)
 
@@ -88,7 +88,7 @@ func TestGetAllByDocumentedDateDesc(t *testing.T) {
 	quote1 := createQuoteNow("quote1")
 	quote2 := createQuoteNow("quote2")
 	quote3 := createQuoteNow("quote3")
-	store := QuoteStore{}
+	store := QuoteStore{DataFolder: "../test_data/"}
 	store.Save(quote1)
 	store.Save(quote3)
 	store.Save(quote2)
@@ -102,5 +102,5 @@ func TestGetAllByDocumentedDateDesc(t *testing.T) {
 }
 
 func cleanData() {
-	os.RemoveAll("../data/")
+	os.RemoveAll("../test_data/")
 }
