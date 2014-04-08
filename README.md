@@ -1,4 +1,4 @@
-quoteboard
+Quote Board
 ==========
 
-Quote Board
+List your quotes website.
