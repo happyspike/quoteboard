@@ -19,3 +19,17 @@ func (quote Quote) IsValid() bool {
 		return false
 	}
 }
+
+type ByDocumentedDateDesc []Quote
+
+func (a ByDocumentedDateDesc) Len() int {
+	return len(a)
+}
+
+func (a ByDocumentedDateDesc) Swap(i, j int) {
+	a[i], a[j] = a[j], a[i]
+}
+
+func (a ByDocumentedDateDesc) Less(i, j int) bool {
+	return a[i].DocumentedDate.After(a[j].DocumentedDate)
+}

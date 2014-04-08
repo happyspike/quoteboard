@@ -8,7 +8,7 @@ import (
 
 func AssertStringEqual(expected string, actual string, t *testing.T) {
 	if actual != expected {
-		fmt.Printf("expected %s\nreceived %s\n", expected, actual)
+		fmt.Printf("expected %s\nreceived %s\n--------\n", expected, actual)
 		t.Fail()
 	}
 }
