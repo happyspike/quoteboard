@@ -3,12 +3,14 @@ package main
 import (
 	"github.com/wkirschbaum/quoteboard/app"
 	"html/template"
+	"io/ioutil"
 	"net/http"
 	"regexp"
 	"time"
 )
 
 func main() {
+	http.HandleFunc("/assets/", makeHandler(staticHandler))
 	http.HandleFunc("/", makeHandler(viewHandler))
 	http.ListenAndServe(":4000", nil)
 }
@@ -22,9 +24,19 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func staticHandler(w http.ResponseWriter, r *http.Request) {
+	content, err := ioutil.ReadFile("public" + r.URL.String())
+	if err == nil {
+		w.WriteHeader(200)
+		w.Write(content)
+	} else {
+		render404Page(w)
+	}
+}
+
 func makeHandler(fn func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		validPathRegex := regexp.MustCompile("^/$")
+		validPathRegex := regexp.MustCompile("^/$|^/assets/\\S+$")
 		matcher := validPathRegex.FindStringSubmatch(r.URL.Path)
 		if matcher == nil {
 			render404Page(w)
