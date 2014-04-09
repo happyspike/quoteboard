@@ -4,26 +4,22 @@
 </head>
   <body>
     <form method="POST" action="/">
-      <div>
-        Quote
+      <label class="visuallyhidden" for="quotefield">Quote</label>
+      <div class="quotebox">
+        <textarea name="quote" id="quotefield" autofocus placeholder="Your mama's so fat..." ></textarea>
       </div>
-      <div>
-        <textarea name="quote" autofocus ></textarea>
+      <div class="authorbox">
+        <label for="authorfield">Author</label>
+        <input type="text" name="author" id="authorfield"  />
       </div>
-      <div>
-        Author
-      </div>
-      <div>
-        <input type="text" name="author" />
-      </div>
-      <div>
-        <input type="submit" value="submit" />
+      <div class="submitbox">
+        <button type="submit">Submit</button>
       </div>
     </form>
     <hr />
     {{range $quote := .Quotes}}
-      <div>
-        {{$quote.Content}} - {{$quote.Author}}
+      <div class="quote">
+        {{$quote.Content}} — {{$quote.Author}}
       </div>
     {{end}}
   </body>
