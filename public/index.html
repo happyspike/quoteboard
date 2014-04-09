@@ -17,10 +17,9 @@
       </div>
     </form>
     <hr />
-    {{range $quote := .Quotes}}
-      <div class="quote">
-        {{$quote.Content}} — {{$quote.Author}}
-      </div>
-    {{end}}
+    <div id="quoteList">
+
+    </div>
+    <script src="/assets/site.js"></script>
   </body>
 </html>
