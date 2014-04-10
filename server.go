@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/wkirschbaum/quoteboard/app"
 	"html/template"
 	"io/ioutil"
@@ -13,6 +14,7 @@ func main() {
 	http.HandleFunc("/assets/", makeHandler(staticHandler))
 	http.HandleFunc("/", makeHandler(viewHandler))
 	http.HandleFunc("/quotes", makeHandler(quotesHandler))
+	fmt.Println("Listening on localhost:4000")
 	http.ListenAndServe(":4000", nil)
 }
 
@@ -63,12 +65,12 @@ func render404Page(w http.ResponseWriter) {
 }
 
 func renderQuotes(w http.ResponseWriter) {
-	page := app.QuotePage{Quotes: makeQuoteStore().GetAllByDocumentedDateDesc()}
+	page := app.QuotePage{Quotes: app.MakeQuoteStore().GetAllByDocumentedDateDesc()}
 	renderPage(w, "quotes", page)
 }
 
 func renderQuotePage(w http.ResponseWriter) {
-	page := app.QuotePage{Quotes: makeQuoteStore().GetAllByDocumentedDateDesc()}
+	page := app.QuotePage{Quotes: app.MakeQuoteStore().GetAllByDocumentedDateDesc()}
 	renderPage(w, "index", page)
 }
 
@@ -94,9 +96,5 @@ func storeQuote(w http.ResponseWriter, content string, author string) {
 		Author:         author,
 		Documentor:     "Unknown",
 		DocumentedDate: time.Now()}
-	makeQuoteStore().Save(quote)
-}
-
-func makeQuoteStore() app.QuoteStore {
-	return app.QuoteStore{DataFolder: "./data/"}
+	app.MakeQuoteStore().Save(quote)
 }
