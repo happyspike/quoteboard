@@ -1,26 +1,11 @@
 <html>
 <head>
+  <script src="components/platform/platform.js"></script>
   <link rel="stylesheet" href="assets/style.css">
+  <link rel="import" href="elements/quote-app.html">
 </head>
-  <body>
-    <form method="POST" action="/">
-      <label class="visuallyhidden" for="quotefield">Quote</label>
-      <div class="quotebox">
-        <textarea name="quote" id="quotefield" autofocus placeholder="Your mama's so fat..." ></textarea>
-      </div>
-      <div class="authorbox">
-        <label for="authorfield">Author</label>
-        <input type="text" name="author" id="authorfield"  />
-      </div>
-      <div class="submitbox">
-        <button type="submit">Submit</button>
-      </div>
-    </form>
-    <hr />
-    <div id="quoteList">
-
-    </div>
-    <script src="/assets/site.js"></script>
+  <body unresolved>
+    <quote-app></quote-app>
     <script src="/assets/uservoice.js"></script>
   </body>
 </html>

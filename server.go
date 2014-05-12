@@ -2,95 +2,36 @@ package main
 
 import (
 	"fmt"
+	"github.com/codegangsta/martini-contrib/binding"
+	"github.com/go-martini/martini"
+	"github.com/martini-contrib/render"
 	"github.com/wkirschbaum/quoteboard/app"
-	"html/template"
-	"io/ioutil"
-	"net/http"
-	"regexp"
 	"time"
 )
 
+type QuotePost struct {
+	Content string `json: "content" binding:"required"`
+	Author  string `json: "author"`
+}
+
 func main() {
-	http.HandleFunc("/assets/", makeHandler(staticHandler))
-	http.HandleFunc("/", makeHandler(viewHandler))
-	http.HandleFunc("/quotes", makeHandler(quotesHandler))
-	fmt.Println("Listening on localhost:4000")
-	http.ListenAndServe(":4000", nil)
+	m := martini.Classic()
+	m.Use(render.Renderer())
+
+	m.Post("/quotes", binding.Json(QuotePost{}), func(quote QuotePost) {
+		fmt.Println(quote)
+		storeQuote(quote.Content, quote.Author)
+	})
+
+	m.Get("/quotes", func(r render.Render) {
+		quotes := app.MakeQuoteStore().GetAllByDocumentedDateDesc()
+		r.JSON(200, quotes)
+	})
+
+	m.Run()
 }
 
-func viewHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
-		renderQuotePage(w)
-	} else if r.Method == "POST" {
-		storeQuote(w, r.FormValue("quote"), r.FormValue("author"))
-		http.Redirect(w, r, "/", 302)
-	}
-}
-
-func quotesHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
-		renderQuotes(w)
-	} else {
-		w.WriteHeader(404)
-	}
-}
-
-func staticHandler(w http.ResponseWriter, r *http.Request) {
-	content, err := ioutil.ReadFile("public" + r.URL.String())
-	if err == nil {
-		w.WriteHeader(200)
-		w.Write(content)
-	} else {
-		render404Page(w)
-	}
-}
-
-func makeHandler(fn func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		validPathRegex := regexp.MustCompile("^/$|^/assets/\\S+$|^/quotes$")
-		matcher := validPathRegex.FindStringSubmatch(r.URL.Path)
-		if matcher == nil {
-			render404Page(w)
-			return
-		}
-		fn(w, r)
-	}
-}
-
-var templates = template.Must(template.ParseFiles("public/index.html", "public/404.html"))
-
-func render404Page(w http.ResponseWriter) {
-	w.WriteHeader(404)
-	renderPage(w, "404", nil)
-}
-
-func renderQuotes(w http.ResponseWriter) {
-	page := app.QuotePage{Quotes: app.MakeQuoteStore().GetAllByDocumentedDateDesc()}
-	renderPage(w, "quotes", page)
-}
-
-func renderQuotePage(w http.ResponseWriter) {
-	page := app.QuotePage{Quotes: app.MakeQuoteStore().GetAllByDocumentedDateDesc()}
-	renderPage(w, "index", page)
-}
-
-func renderPage(w http.ResponseWriter, templateName string, object interface{}) {
-	devMode := true
-	if devMode {
-		t, _ := template.ParseFiles("public/" + templateName + ".html")
-		err := t.Execute(w, object)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	} else {
-		err := templates.ExecuteTemplate(w, templateName+".html", object)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	}
-}
-
-func storeQuote(w http.ResponseWriter, content string, author string) {
+func storeQuote(content string, author string) {
 	quote := app.Quote{
 		Content:        content,
 		Author:         author,

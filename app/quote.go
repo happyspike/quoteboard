@@ -15,9 +15,8 @@ func (quote Quote) IsValid() bool {
 		len(quote.Documentor) > 0 &&
 		!quote.DocumentedDate.IsZero() {
 		return true
-	} else {
-		return false
 	}
+	return false
 }
 
 type ByDocumentedDateDesc []Quote

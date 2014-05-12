@@ -1,0 +1,20 @@
+{
+  "name": "quoteboard",
+  "version": "0.0.0",
+  "homepage": "https://github.com/wkirschbaum/quoteboard",
+  "authors": [
+    "Wilhelm Kirschbaum <wkirschbaum@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "core-elements": "Polymer/core-elements#~0.2.3",
+    "polymer-ui-elements": "Polymer/polymer-ui-elements#~0.2.3"
+  }
+}
