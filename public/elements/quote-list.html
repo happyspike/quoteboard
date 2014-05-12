@@ -14,7 +14,12 @@
     Polymer('quote-list', {
       quotes: {},
       ready: function () {
+        var _this = this;
         this.updateQuotes();
+        
+        setInterval(function( ) {
+          _this.updateQuotes();
+        }, 3000);
       },
       updateQuotes: function() {
         var self = this;
