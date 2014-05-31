@@ -1,0 +1,8 @@
+<div id="quoteList">
+  <a 
+    class="quote" 
+    href="#/quotes/{{quote.$id}}" 
+    ng-repeat="quote in quotes | orderByPriority | orderBy: '-added'">
+      {{quote.content}} - {{quote.author}}
+  </a>
+</div>

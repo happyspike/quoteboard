@@ -18,6 +18,9 @@ textarea {
 input[type="text"] {
   padding: 0.5em;
 }
+input[type="password"] {
+  padding: 0.5em;
+}
 button {
   font-family: Georgia, serif;
   font-size: 100%;
@@ -53,15 +56,28 @@ button {
   text-align: right;
   padding: 0 1.8em .5em;
 }
+
+.quote-container {
+  background-color: rgb(223, 200, 200);
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.quote-container:nth-child(2n){
+  background-color: #E9E6E6;
+}
+
+.user {
+  float: left;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
 .quote {
   font-size: 140%;
   padding: 0.5em 1.4em;
   line-height: 1.2;
-  background-color: rgb(223, 200, 200);
   display: block;
   text-decoration: none;
   color: black;
-}
-.quote:nth-child(2n){
-  background-color: #E9E6E6;
 }

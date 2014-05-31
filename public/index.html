@@ -9,18 +9,23 @@
 
     <script src="assets/js/angular.min.js"></script>
     <script src="assets/js/firebase.js"></script>
+    <script src="assets/js/firebase-simple-login.js"></script>
     <script src="assets/js/angularfire.min.js"></script>
     <script src="/assets/js/angular-ui-router.min.js"></script>
+    <script src="/assets/js/angularjs-gravitardirective.min.js"></script>
 
     <script src="/app/controllers.js"></script>
-    <script src="/app/index.js"></script>
+    <script src="/app/directives.js"></script>
+    <script src="/app/quoteboard.js"></script>
 
     <link rel="stylesheet" href="assets/css/site.css">
   </head>
   <body>
+    <session-element></session-element>
+    <br />
     <div ui-view></div>
     <script>
-      var FBURL = 'https://quoteboard.firebaseio.com/';
+      var FBURL = 'https://quoteboarddev.firebaseio.com/';
     </script>
     <script src="/assets/js/uservoice.js"></script>
   </body>
