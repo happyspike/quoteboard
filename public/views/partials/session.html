@@ -5,6 +5,7 @@
       data-gravatar-default="identicon" 
       data-gravatar-secure="true"></gravatar-image>
   {{user.email}}
+  <a href="" ng-click="logout()" >logout</a>
 </div>
 <div ng-hide="user">
   <form ng-show="state === 'login'" ng-submit="login()">

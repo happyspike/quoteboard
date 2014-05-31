@@ -6,9 +6,13 @@
     $scope.quotes = $firebase(ref);
     $scope.addQuote = function() {
       if (!$scope.newQuote) { return; }
-      $scope.newQuote.user = $rootScope.user.email;
-      $scope.newQuote.added = Firebase.ServerValue.TIMESTAMP;
-      $scope.quotes.$add($scope.newQuote);
+      
+      if ($rootScope.user) {
+        $scope.newQuote.user = $rootScope.user.email;
+        $scope.newQuote.added = Firebase.ServerValue.TIMESTAMP;
+        $scope.quotes.$add($scope.newQuote);
+      }
+  
       $scope.newQuote = {};
       document.getElementById("newQuoteContent").focus();
     }
@@ -44,6 +48,9 @@
         $scope.register = null;
       });
     };
+    $scope.logout = function() {
+      $rootScope.auth.$logout();
+    }
     $scope.login = function() {
       if (!$scope.login.email) { return; }
       if (!$scope.login.password) { return; }
