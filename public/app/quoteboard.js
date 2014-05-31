@@ -1,12 +1,13 @@
 var app = angular.module("quoteboard", [
   "firebase", 
-  "ui.router", 
-  "directives",
-  "controllers",
+  "ui.router",
+  "quoteboard.services",
+  "quoteboard.directives",
+  "quoteboard.controllers",
   "angularjs-gravatardirective"
   ]);
   
-app.run(function($rootScope, $firebaseSimpleLogin) {
+app.run(function($rootScope, $firebaseSimpleLogin, messageService) {
   var ref = new Firebase(FBURL);
   $rootScope.$on("$firebaseSimpleLogin:login", function(e, user) {
     $rootScope.user = user;
@@ -15,7 +16,8 @@ app.run(function($rootScope, $firebaseSimpleLogin) {
     $rootScope.user = null;
   });
   $rootScope.$on("$firebaseSimpleLogin:error", function(e, error) {
-    console.log(error);
+    errorMessage = error.message.replace("FirebaseSimpleLogin: FirebaseSimpleLogin: ", "");
+    messageService.showError(errorMessage);
   });
 
   $rootScope.auth = $firebaseSimpleLogin(ref);
@@ -28,8 +30,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('index', {
       url: "/",
-      templateUrl: 'views/index.html',
-      controller: 'IndexController'
+      templateUrl: 'views/home.html'
     }).state('quote', {
       url: '/quotes/:quoteId',
       templateUrl: 'views/quote.html',
