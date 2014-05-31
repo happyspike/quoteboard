@@ -7,16 +7,21 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
-    <script src="https://cdn.firebase.com/js/client/1.0.15/firebase.js"></script>
-    <script src="https://cdn.firebase.com/libs/angularfire/0.7.1/angularfire.min.js"></script>
-
+    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/firebase.js"></script>
+    <script src="assets/js/angularfire.min.js"></script>
     <script src="/assets/js/angular-ui-router.min.js"></script>
 
     <script src="/app/controllers.js"></script>
     <script src="/app/index.js"></script>
+
+    <link rel="stylesheet" href="assets/css/site.css">
   </head>
   <body>
     <div ui-view></div>
+    <script>
+      var FBURL = 'https://quoteboard.firebaseio.com/';
+    </script>
+    <script src="/assets/js/uservoice.js"></script>
   </body>
 </html>

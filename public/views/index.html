@@ -1,15 +1,17 @@
 <form ng-submit="addQuote()">
-  <div>
+  <label class="visuallyhidden" for="quotefield">Quote</label>
+  <div class="quotebox">
     <textarea id="newQuoteContent" ng-model="newQuote.content" placeholder="your mamma is so fat..." autofocus></textarea>
   </div>
-  <div>
-    <input type="text" ng-model="newQuote.author" placeholder="author...">
+  <div class="authorbox" >
+    <label for="authorfield">Author</label>
+    <input type="text" ng-model="newQuote.author">
   </div>
-  </div>
-    <button type="submit">submit</button>
+  </div class="submitbox">
+    <button type="submit">Submit</button>
   </div>
 </form>
-
+<hr/>
 <div id="quoteList">
-  <div ng-repeat="quote in quotes">{{quote.content}} - {{quote.author}}</div>
+  <div class="quote" ng-repeat="quote in quotes">{{quote.content}} - {{quote.author}}</div>
 </div>
