@@ -58,6 +58,9 @@ button {
   padding: 0.5em 1.4em;
   line-height: 1.2;
   background-color: rgb(223, 200, 200);
+  display: block;
+  text-decoration: none;
+  color: black;
 }
 .quote:nth-child(2n){
   background-color: #E9E6E6;

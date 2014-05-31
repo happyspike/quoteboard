@@ -1,5 +1,5 @@
 {
-  "firebase": "quoteboard",
+  "firebase": "quoteboarddev",
   "public": "public",
   "ignore": [
     "firebase.json",

@@ -13,5 +13,10 @@
 </form>
 <hr/>
 <div id="quoteList">
-  <div class="quote" ng-repeat="quote in quotes">{{quote.content}} - {{quote.author}}</div>
+  <a 
+    class="quote" 
+    href="#/quotes/{{quote.$id}}" 
+    ng-repeat="quote in quotes | orderByPriority | orderBy: '-added'">
+      {{quote.content}} - {{quote.author}}
+  </a>
 </div>
