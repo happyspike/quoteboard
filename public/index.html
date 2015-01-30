@@ -1,39 +1,22 @@
-<!doctype html>
-<html ng-app="quoteboard" class="no-js" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Quoteboard</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="vendor/js/react.js"></script>
+    <script src="vendor/js/JSXTransformer.js"></script>
+    <script src="vendor/js/jquery.js"></script>
 
-    <script src="assets/js/angular.min.js"></script>
-    <script src="assets/js/firebase.js"></script>
-    <script src="assets/js/firebase-simple-login.js"></script>
-    <script src="assets/js/angularfire.min.js"></script>
-    <script src="/assets/js/angular-ui-router.min.js"></script>
-    <script src="/assets/js/angularjs-gravitardirective.min.js"></script>
+    <script src="vendor/js/firebase.js"></script>
+    <script src="vendor/js/reactfire.min.js"></script>
 
-    <script src="/app/services.js"></script>
-    <script src="/app/controllers.js"></script>
-    <script src="/app/directives.js"></script>
-    <script src="/app/quoteboard.js"></script>
-
-    <link rel="stylesheet" href="assets/css/site.css">
+    <script type="text/jsx" src="src/js/quoteboard.js"></script>
   </head>
   <body>
-    <div>
-        <errors-element></errors-element>
-    </div>
-    <div>
-        <session-element></session-element>
-        <br />
-    </div>
-    <div ui-view></div>
-    <script>
-      // var FBURL = 'https://quoteboarddev.firebaseio.com/';
-      var FBURL = 'https://quoteboard.firebaseio.com/';
+    <div id="quoteboard"></div>
+    <script type="text/jsx">
+      React.render(
+        <QuoteBoard></QuoteBoard>,
+        document.getElementById('quoteboard')
+      );
     </script>
-    <script src="/assets/js/uservoice.js"></script>
   </body>
 </html>
