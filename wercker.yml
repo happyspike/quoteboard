@@ -8,6 +8,13 @@ build:
     - setup-go-workspace
 
     # Gets the dependencies
+    
+    - script:
+        name: go get
+        code: |
+          cd $WERCKER_SOURCE_DIR
+          go version
+          go get -t ./...
 
     # Build the project
     - script:
