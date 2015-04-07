@@ -1,4 +1,4 @@
-box: golang
+box: golang:1.3-onbuild
 # Build definition
 build:
   # The steps that will be executed on build
