@@ -12,10 +12,11 @@ func main() {
 	mux := http.NewServeMux()
 	n := negroni.Classic()
 	n.UseHandler(mux)
-	StartHttpServer(n)
+	StartHTTPServer(n)
 }
 
-func StartHttpServer(handler http.Handler) {
+// StartHTTPServer ...
+func StartHTTPServer(handler http.Handler) {
 	port := os.Getenv("PORT")
 	if len(port) == 0 {
 		port = "3000"
