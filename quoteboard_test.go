@@ -17,7 +17,3 @@ func TestAddQuote(t *testing.T) {
 
 	assert.Equal(t, 123, 123, "they should be equal")
 }
-
-func TestFailingTestAgain(t *testing.T) {
-	assert(t, 1, 2)
-}
