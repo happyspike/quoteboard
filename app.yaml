@@ -1,0 +1,13 @@
+version: 1
+runtime: go
+api_version: go1
+
+handlers:
+- url: /.*
+  script: _go_app
+  
+skip_files:
+- wercker.yml
+- README.md
+- .DS_Store
+- .git/
